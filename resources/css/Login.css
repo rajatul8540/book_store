@@ -1,0 +1,125 @@
+.auth-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f2f4f8;
+}
+
+.auth-box {
+    width: 700px;
+    min-height: 400px;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    transition: 0.5s;
+}
+
+/* LEFT SIDE */
+.auth-left {
+    width: 50%;
+    background: white;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-left h2 {
+    margin-bottom: 20px;
+}
+
+.auth-left input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 6px;
+    border: 1px solid #d7dce2;
+    outline: none;
+}
+
+.auth-left input[aria-invalid="true"] {
+    border-color: #d93025;
+}
+
+.auth-left button {
+    width: 100%;
+    padding: 10px;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* RIGHT SIDE */
+.auth-right {
+    width: 50%;
+    background: #111;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-right button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    background: white;
+    color: black;
+    cursor: pointer;
+}
+
+/* ERROR */
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.field-error {
+    color: #d93025;
+    font-size: 13px;
+    line-height: 1.25;
+    margin: -2px 0 10px;
+}
+
+/* ANIMATION (toggle effect) */
+.login-mode .auth-right {
+    background: #111;
+}
+
+.register-mode .auth-right {
+    background: #2b2b2b;
+}
+
+.not-found-box {
+    width: 360px;
+    padding: 32px;
+    text-align: center;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.not-found-box h1 {
+    margin: 0;
+    font-size: 58px;
+}
+
+.not-found-box h2 {
+    margin: 8px 0;
+}
+
+.not-found-box p {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.not-found-box a {
+    display: inline-block;
+    padding: 10px 18px;
+    background: black;
+    color: white;
+    text-decoration: none;
+}
