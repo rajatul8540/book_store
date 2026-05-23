@@ -6,6 +6,8 @@ This project is built with Laravel API, React frontend, MySQL, JWT authenticatio
 
 ```bash
 composer install
+export books.sql  
+# 
 npm install  # if it faill then use   npm install --legacy-peer-deps
 cp .env.example .env
 php artisan key:generate
