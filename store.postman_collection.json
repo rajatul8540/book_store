@@ -16,7 +16,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"rajatul8540@gmail.com\",\r\n    \"password\": \"Kumar@!23\"\r\n}",
+              "raw": "{\r\n    \"email\": \"rajatul8540@gmail.com\",\r\n    \"password\": \"Kumar@123\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -43,7 +43,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"ATUL\",\r\n    \"email\": \"rajatul8540@gmail.com\",\r\n    \"password\": \"Kumar@!23\"\r\n}",
+              "raw": "{\r\n    \"name\": \"ATUL\",\r\n    \"email\": \"rajatul8540@gmail.com\",\r\n    \"password\": \"Kumar@123\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -138,6 +138,16 @@
         {
           "name": "books",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3Nzk1MjQ4OTcsImV4cCI6MTc3OTUyODQ5NywibmJmIjoxNzc5NTI0ODk3LCJqdGkiOiJVMVNaemNHMVdlcXFRZ051Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.vW8khpjnYi09GtPEh6ZbrynWhneX81eCQxJtr04lG_g",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
             "header": [],
             "body": {
@@ -170,8 +180,8 @@
                 {
                   "key": "cover_image",
                   "type": "file",
-                  "uuid": "193aecdc-ee1a-4fb6-883e-4b70a01b9096",
-                  "src": "/C:/Users/YOYOA/OneDrive/Pictures/Screenshots 1/Screenshot 2023-08-02 192624.png"
+                  "uuid": "2d500fc5-4412-482a-9b20-6d43a2d7b93b",
+                  "src": "/C:/Users/YOYOA/OneDrive/Pictures/Screenshots 1/Screenshot 2023-07-27 220926.png"
                 }
               ]
             },
@@ -190,20 +200,30 @@
         {
           "name": "books",
           "request": {
-            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3Nzk1MjQ4OTcsImV4cCI6MTc3OTUyODQ5NywibmJmIjoxNzc5NTI0ODk3LCJqdGkiOiJVMVNaemNHMVdlcXFRZ051Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.vW8khpjnYi09GtPEh6ZbrynWhneX81eCQxJtr04lG_g",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
             "header": [],
             "body": {
               "mode": "formdata",
               "formdata": [
                 {
                   "key": "title",
-                  "value": "ATUL",
+                  "value": "ATUL1",
                   "type": "text",
                   "uuid": "af58bf00-3425-463c-ba65-153a042507f7"
                 },
                 {
                   "key": "author",
-                  "value": "ramu",
+                  "value": "ramu12",
                   "type": "text",
                   "uuid": "e0d0dd49-7434-445c-b53a-d6a796ada54f"
                 },
@@ -222,19 +242,25 @@
                 {
                   "key": "cover_image",
                   "type": "file",
-                  "uuid": "193aecdc-ee1a-4fb6-883e-4b70a01b9096",
-                  "src": "/C:/Users/YOYOA/OneDrive/Pictures/Screenshots 1/Screenshot 2023-08-02 192624.png"
+                  "uuid": "b3c64f74-5b1a-4a2f-b14f-207019cceabe",
+                  "src": "/C:/Users/YOYOA/OneDrive/Pictures/Screenshots 1/Screenshot 2023-07-27 220926.png"
+                },
+                {
+                  "key": "_method",
+                  "value": "PUT",
+                  "type": "text",
+                  "uuid": "fecbfe9e-b7f9-4cf0-a52d-436fac90afe2"
                 }
               ]
             },
             "url": {
-              "raw": "{{base_url}}/books/1",
+              "raw": "{{base_url}}/books/5",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "books",
-                "1"
+                "5"
               ]
             }
           },
@@ -243,10 +269,20 @@
         {
           "name": "books",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3Nzk1MjQ4OTcsImV4cCI6MTc3OTUyODQ5NywibmJmIjoxNzc5NTI0ODk3LCJqdGkiOiJVMVNaemNHMVdlcXFRZ051Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.vW8khpjnYi09GtPEh6ZbrynWhneX81eCQxJtr04lG_g",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/books?search=&page=1&per_page=10",
+              "raw": "{{base_url}}/books?search=ATUL&page=1&per_page=10",
               "host": [
                 "{{base_url}}"
               ],
@@ -256,7 +292,7 @@
               "query": [
                 {
                   "key": "search",
-                  "value": ""
+                  "value": "ATUL"
                 },
                 {
                   "key": "page",
@@ -274,16 +310,26 @@
         {
           "name": "books",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3Nzk1MjQ4OTcsImV4cCI6MTc3OTUyODQ5NywibmJmIjoxNzc5NTI0ODk3LCJqdGkiOiJVMVNaemNHMVdlcXFRZ051Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.vW8khpjnYi09GtPEh6ZbrynWhneX81eCQxJtr04lG_g",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/books/1",
+              "raw": "{{base_url}}/books/4",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "books",
-                "1"
+                "4"
               ]
             }
           },
