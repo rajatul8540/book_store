@@ -25,7 +25,7 @@ class BookController extends Controller
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($query) use ($search) {
                     $query->where('title', 'like', "%{$search}%")
-                          ->orWhere('author', 'like', "%{$search}%");
+                        ->orWhere('author', 'like', "%{$search}%");
                 });
             })
             ->latest()
@@ -110,6 +110,7 @@ class BookController extends Controller
     {
         $book = $this->findBook($id);
 
+
         if (!$book) {
             return $this->errorResponse(
                 'Book not found',
@@ -191,7 +192,7 @@ class BookController extends Controller
         return [
             'title'          => 'required|string|max:255',
             'author'         => 'required|string|max:255',
-            'cover_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'cover_image'    => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
             'price'          => 'required|numeric|min:0',
             'published_date' => 'nullable|date',
         ];
@@ -202,9 +203,9 @@ class BookController extends Controller
         return [
             'title'          => 'sometimes|required|string|max:255',
             'author'         => 'sometimes|required|string|max:255',
-            'cover_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'cover_image'    => 'sometimes|required|image|mimes:jpg,jpeg,png,webp|max:2048',
             'price'          => 'sometimes|required|numeric|min:0',
-            'published_date' => 'nullable|date',
+            'published_date' => 'sometimes|required|date',
         ];
     }
 

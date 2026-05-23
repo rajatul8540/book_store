@@ -48,7 +48,11 @@ export const updateBook = async (id, data) => {
         formData.append('cover_image', data.cover_image)
     }
 
-    const response = await api.put(`/books/${id}`, formData)
+    const response = await api.post(`/books/${id}`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    })
 
     return response.data
 }

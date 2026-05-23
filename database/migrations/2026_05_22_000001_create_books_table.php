@@ -16,6 +16,8 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->date('published_date')->nullable();
             $table->boolean('_deleted')->default(false);
+           $table->index(['_deleted', 'title']);
+            $table->index(['_deleted', 'author']);
             $table->timestamps();
         });
     }

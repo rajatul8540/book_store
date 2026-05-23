@@ -367,7 +367,7 @@ export default function Books() {
                                 <table className="books-table">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
+                                            <th>S.no</th>
                                             <th>Cover</th>
                                             <th>Title</th>
                                             <th>Author</th>
@@ -377,9 +377,9 @@ export default function Books() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {books.map((book) => (
+                                        {books.map((book,index) => (
                                             <tr key={book.id}>
-                                                <td>{book.id}</td>
+                                                <td>{index + 1}</td>
                                                 <td>
                                                     {book.cover_image_url ? (
                                                         <img
