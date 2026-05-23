@@ -252,4 +252,14 @@ For protected APIs, add header:
 Authorization: Bearer {{token}}
 ```
 
-For `POST /books` and `PUT /books/{id}`, use `form-data`. Set `cover_image` type as `File`.
+For `POST /books` and `POST /books/{id}`, use `form-data`. Set `cover_image` type as `File`.
+
+POST /books/1
+Content-Type: multipart/form-data
+
+_key-value pairs:
+_method = PUT
+title = "New Book Title"
+author = "Author Name"
+description = "Book description"
+cover_image = (File)
