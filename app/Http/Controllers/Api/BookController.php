@@ -13,19 +13,14 @@ class BookController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $perPage = min(
-            max((int) $request->query('per_page', 10), 1),
-            100
-        );
-
+        $perPage = min(max((int) $request->query('per_page', 10), 1), 100);
         $search = trim((string) $request->query('search', ''));
 
         $books = Book::query()
-            ->where('_deleted', false)
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($query) use ($search) {
                     $query->where('title', 'like', "%{$search}%")
-                        ->orWhere('author', 'like', "%{$search}%");
+                          ->orWhere('author', 'like', "%{$search}%");
                 });
             })
             ->latest()
@@ -37,47 +32,32 @@ class BookController extends Controller
             $data[] = $this->bookValue($book, $request);
         }
 
-        return $this->successResponse(
-            'Books fetched successfully',
-            [
-                'current_page' => $books->currentPage(),
-                'per_page' => $books->perPage(),
-                'total' => $books->total(),
-                'last_page' => $books->lastPage(),
-                'data' => $data,
-            ]
-        );
+        return $this->successResponse('Books fetched successfully', [
+            'current_page' => $books->currentPage(),
+            'per_page' => $books->perPage(),
+            'total' => $books->total(),
+            'last_page' => $books->lastPage(),
+            'data' => $data,
+        ]);
     }
 
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make(
             $request->all(),
-            $this->validationRules(),
-            $this->validationMessages()
+            $this->storeRules(),
+            $this->messages()
         );
 
         if ($validator->fails()) {
-            return $this->errorResponse(
-                'Validation error',
-                $validator->errors(),
-                422
-            );
+            return $this->errorResponse('Validation error', $validator->errors(), 422);
         }
 
         $data = $validator->validated();
 
-        $coverImage = $this->resolveCoverImage($request);
-
-        if ($request->hasFile('cover_image') && !$coverImage) {
-            return $this->errorResponse(
-                'Unable to upload cover image',
-                null,
-                500
-            );
+        if ($request->hasFile('cover_image')) {
+            $data['cover_image'] = $request->file('cover_image')->store('books', 'public');
         }
-
-        $data['cover_image'] = $coverImage;
 
         $book = Book::create($data);
 
@@ -90,14 +70,10 @@ class BookController extends Controller
 
     public function show(Request $request, int $id): JsonResponse
     {
-        $book = $this->findBook($id);
+        $book = Book::find($id);
 
         if (!$book) {
-            return $this->errorResponse(
-                'Book not found',
-                null,
-                404
-            );
+            return $this->errorResponse('Book not found', null, 404);
         }
 
         return $this->successResponse(
@@ -108,48 +84,31 @@ class BookController extends Controller
 
     public function update(Request $request, int $id): JsonResponse
     {
-        $book = $this->findBook($id);
-
+        $book = Book::find($id);
 
         if (!$book) {
-            return $this->errorResponse(
-                'Book not found',
-                null,
-                404
-            );
+            return $this->errorResponse('Book not found', null, 404);
         }
 
         $validator = Validator::make(
             $request->all(),
-            $this->updateValidationRules(),
-            $this->validationMessages()
+            $this->updateRules(),
+            $this->messages()
         );
 
         if ($validator->fails()) {
-            return $this->errorResponse(
-                'Validation error',
-                $validator->errors(),
-                422
-            );
+            return $this->errorResponse('Validation error', $validator->errors(), 422);
         }
 
         $data = $validator->validated();
 
         if ($request->hasFile('cover_image')) {
 
-            $coverImage = $this->resolveCoverImage($request);
-
-            if (!$coverImage) {
-                return $this->errorResponse(
-                    'Unable to upload cover image',
-                    null,
-                    500
-                );
+            if ($book->cover_image) {
+                Storage::disk('public')->delete($book->cover_image);
             }
 
-            $this->deleteCoverImage($book->cover_image);
-
-            $data['cover_image'] = $coverImage;
+            $data['cover_image'] = $request->file('cover_image')->store('books', 'public');
         }
 
         $book->update($data);
@@ -162,70 +121,50 @@ class BookController extends Controller
 
     public function destroy(Request $request, int $id): JsonResponse
     {
-        $book = $this->findBook($id);
+        $book = Book::find($id);
 
         if (!$book) {
-            return $this->errorResponse(
-                'Book not found',
-                null,
-                404
-            );
+            return $this->errorResponse('Book not found', null, 404);
         }
 
-        $book->update([
-            '_deleted' => true
-        ]);
+        if ($book->cover_image) {
+            Storage::disk('public')->delete($book->cover_image);
+        }
 
-        return $this->successResponse(
-            'Book deleted successfully',
-            $this->bookValue($book->fresh(), $request)
-        );
+        $book->delete();
+
+        return $this->successResponse('Book deleted successfully', null);
     }
 
-    private function findBook(int $id): ?Book
-    {
-        return Book::where('_deleted', false)->find($id);
-    }
-
-    private function validationRules(): array
+    private function storeRules(): array
     {
         return [
-            'title'          => 'required|string|max:255',
-            'author'         => 'required|string|max:255',
-            'cover_image'    => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'price'          => 'required|numeric|min:0',
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'price' => 'required|numeric|min:0',
             'published_date' => 'nullable|date',
         ];
     }
 
-    private function updateValidationRules(): array
+    private function updateRules(): array
     {
         return [
-            'title'          => 'sometimes|required|string|max:255',
-            'author'         => 'sometimes|required|string|max:255',
-            'cover_image'    => 'sometimes|required|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'price'          => 'sometimes|required|numeric|min:0',
-            'published_date' => 'sometimes|required|date',
+            'title' => 'sometimes|required|string|max:255',
+            'author' => 'sometimes|required|string|max:255',
+            'cover_image' => 'sometimes|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'price' => 'sometimes|required|numeric|min:0',
+            'published_date' => 'sometimes|date',
         ];
     }
 
-    private function validationMessages(): array
+    private function messages(): array
     {
         return [
-            'cover_image.image' => 'Cover image must be a valid image file',
-            'cover_image.mimes' => 'Cover image must be jpg, jpeg, png, or webp',
-            'cover_image.max'   => 'Cover image must be 2MB or smaller',
+            'cover_image.image' => 'Cover image must be valid image',
+            'cover_image.mimes' => 'Allowed formats: jpg, jpeg, png, webp',
+            'cover_image.max' => 'Image must be under 2MB',
         ];
-    }
-
-    private function resolveCoverImage(Request $request): ?string
-    {
-        if ($request->hasFile('cover_image')) {
-            return $request->file('cover_image')
-                ->store('books', 'public');
-        }
-
-        return $request->input('cover_image');
     }
 
     private function bookValue(Book $book, Request $request): array
@@ -235,39 +174,13 @@ class BookController extends Controller
             'title' => $book->title,
             'author' => $book->author,
             'cover_image' => $book->cover_image,
-            'cover_image_url' => $this->coverImageUrl($book, $request),
+            'cover_image_url' => $book->cover_image
+                ? $request->getSchemeAndHttpHost() . '/storage/' . $book->cover_image
+                : null,
             'price' => $book->price,
             'published_date' => $book->published_date?->format('Y-m-d'),
-            '_deleted' => $book->_deleted,
             'created_at' => $book->created_at,
             'updated_at' => $book->updated_at,
         ];
-    }
-
-    private function coverImageUrl(
-        Book $book,
-        Request $request
-    ): ?string {
-        if (!$book->cover_image) {
-            return null;
-        }
-
-        if (str_starts_with($book->cover_image, 'http')) {
-            return $book->cover_image;
-        }
-
-        return $request->getSchemeAndHttpHost()
-            . '/storage/'
-            . ltrim($book->cover_image, '/');
-    }
-
-    private function deleteCoverImage(?string $path): void
-    {
-        if (
-            $path &&
-            !str_starts_with($path, 'http')
-        ) {
-            Storage::disk('public')->delete($path);
-        }
     }
 }

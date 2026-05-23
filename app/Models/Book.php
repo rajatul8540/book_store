@@ -1,13 +1,13 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -15,7 +15,6 @@ class Book extends Model
         'cover_image',
         'price',
         'published_date',
-        '_deleted',
     ];
 
     protected function casts(): array
@@ -23,7 +22,6 @@ class Book extends Model
         return [
             'price' => 'decimal:2',
             'published_date' => 'date',
-            '_deleted' => 'boolean',
         ];
     }
 }
