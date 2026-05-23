@@ -9,14 +9,15 @@ use App\Http\Middleware\SanitizeInput;
 Route::middleware(SanitizeInput::class)->group(function () {
     Route::post('/auth/login', [AuthController::class, 'login']);
     Route::post('/auth/register', [AuthController::class, 'register']);
-    Route::post('/books', [BookController::class, 'store']);
-    Route::get('/books', [BookController::class, 'index']);
-    Route::get('/books/{id}', [BookController::class, 'show']);
-    Route::put('/books/{id}', [BookController::class, 'update']);
-    Route::delete('/books/{id}', [BookController::class, 'destroy']);
+  
 
     Route::middleware(AuthenticateApi::class)->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/auth/profile', [AuthController::class, 'profile']);
+          Route::post('/books', [BookController::class, 'store']);
+    Route::get('/books', [BookController::class, 'index']);
+    Route::get('/books/{id}', [BookController::class, 'show']);
+    Route::put('/books/{id}', [BookController::class, 'update']);
+    Route::delete('/books/{id}', [BookController::class, 'destroy']);
     });
 });
