@@ -241,8 +241,8 @@ GET    {{base_url}}/auth/profile
 POST   {{base_url}}/logout
 POST   {{base_url}}/books
 GET    {{base_url}}/books?search=&page=1&per_page=10
-POST    {{base_url}}/books/1   ##BUT ADD _method = PUT 
-DELETE {{base_url}}/books/1
+POST /books/1
++ _method = PUTDELETE {{base_url}}/books/1
 ```
 
 For protected APIs, add header:
